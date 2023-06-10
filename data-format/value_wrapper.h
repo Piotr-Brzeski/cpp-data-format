@@ -40,7 +40,7 @@ public:
 		return operator[](static_cast<rapidjson::SizeType>(index));
 	}
 	value_wrapper operator[](rapidjson::SizeType index) const {
-	if(m_value.IsArray()) {
+		if(m_value.IsArray()) {
 			auto& value = m_value[index];
 			return value_wrapper(value);
 		}

@@ -29,6 +29,10 @@ public:
 		return value_wrapper(m_json)[key];
 	}
 	
+	value_wrapper get() const {
+		return value_wrapper(m_json);
+	}
+	
 private:
 	std::string         m_data;
 	rapidjson::Document m_json;
