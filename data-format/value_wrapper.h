@@ -9,12 +9,22 @@
 #pragma once
 
 #include "exception.h"
+//#include <algorithm>
 #define RAPIDJSON_HAS_STDSTRING 1
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#pragma clang diagnostic ignored "-Wambiguous-reversed-operator"
+#ifdef __clang__
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	#pragma clang diagnostic ignored "-Wambiguous-reversed-operator"
+#else
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 #include "../rapidjson/document.h"
-#pragma clang diagnostic pop
+#ifdef __clang__
+	#pragma clang diagnostic pop
+#else
+	#pragma GCC diagnostic pop
+#endif
 
 namespace format {
 
@@ -44,21 +54,21 @@ public:
 			auto& value = m_value[index];
 			return value_wrapper(value);
 		}
-		throw exception("Not an array");
+		throw exception("JSON value is not an array");
 	}
 	
 	std::size_t size() const {
 		if(m_value.IsArray()) {
 			return m_value.Size();
 		}
-		throw exception("Not an array");
+		throw exception("JSON value is not an array");
 	}
 	
 	int get_int() const {
 		if(m_value.IsInt()) {
 			return m_value.GetInt();
 		}
-		throw exception("Invalid value type");
+		throw exception("JSON value in not an integer");
 	}
 	
 	std::string get_string() const {
@@ -67,7 +77,7 @@ public:
 			auto size = m_value.GetStringLength();
 			return std::string(ptr, size);
 		}
-		throw exception("Invalid value type");
+		throw exception("JSON value is not a string");
 	}
 	
 private:
@@ -76,9 +86,9 @@ private:
 			if(auto it = m_value.FindMember(key); it != m_value.MemberEnd()) {
 				return it->value;
 			}
-			throw exception("Value not found");
+			throw exception("JSON value not found");
 		}
-		throw exception("Not an object");
+		throw exception("JSON value is not an object");
 	}
 	
 	value_t const& m_value;
