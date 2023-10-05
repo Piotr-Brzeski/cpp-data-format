@@ -9,7 +9,6 @@
 #pragma once
 
 #include "exception.h"
-//#include <algorithm>
 #define RAPIDJSON_HAS_STDSTRING 1
 #ifdef __clang__
 	#pragma clang diagnostic push
