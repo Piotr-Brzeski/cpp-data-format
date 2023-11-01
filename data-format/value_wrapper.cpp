@@ -38,6 +38,13 @@ int value_wrapper::get_int() const {
 	throw exception("JSON value in not an integer");
 }
 
+bool value_wrapper::get_bool() const {
+	if(m_value.IsBool()) {
+		return m_value.GetBool();
+	}
+	throw exception("JSON value in not a bool");
+}
+
 std::string value_wrapper::get_string() const {
 	if(m_value.IsString()) {
 		auto ptr = m_value.GetString();

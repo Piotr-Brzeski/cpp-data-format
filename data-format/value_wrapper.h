@@ -50,6 +50,7 @@ public:
 	std::size_t size() const;
 	
 	int get_int() const;
+	bool get_bool() const;
 	std::string get_string() const;
 	
 private:

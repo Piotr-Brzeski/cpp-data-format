@@ -20,3 +20,4 @@ settings:
 
 include:
   - data-format/data-format.yml
+  - tests/tests.yml

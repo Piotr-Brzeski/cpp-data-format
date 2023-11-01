@@ -1,0 +1,14 @@
+targets:
+  data-format-tests:
+    platform: macOS
+    type: bundle.unit-test
+    dependencies:
+      - target: data-format
+        link: true
+    settings:
+      GENERATE_INFOPLIST_FILE: true
+      HEADER_SEARCH_PATHS:
+        - ${SRCROOT}
+    sources:
+      - path: json_tests.mm
+        group: data-format-tests
