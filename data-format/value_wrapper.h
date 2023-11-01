@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "exception.h"
 #define RAPIDJSON_HAS_STDSTRING 1
 #ifdef __clang__
 	#pragma clang diagnostic push
@@ -24,6 +23,7 @@
 #else
 	#pragma GCC diagnostic pop
 #endif
+#include <string>
 
 namespace format {
 
@@ -31,10 +31,7 @@ class value_wrapper {
 public:
 	using value_t = rapidjson::GenericValue<rapidjson::UTF8<>>;
 	
-	explicit value_wrapper(value_t const& value)
-		: m_value(value)
-	{
-	}
+	explicit value_wrapper(value_t const& value);
 	
 	template<class Key>
 	value_wrapper operator[](Key const& key) const {
@@ -48,47 +45,15 @@ public:
 	value_wrapper operator[](int index) const {
 		return operator[](static_cast<rapidjson::SizeType>(index));
 	}
-	value_wrapper operator[](rapidjson::SizeType index) const {
-		if(m_value.IsArray()) {
-			auto& value = m_value[index];
-			return value_wrapper(value);
-		}
-		throw exception("JSON value is not an array");
-	}
+	value_wrapper operator[](rapidjson::SizeType index) const;
 	
-	std::size_t size() const {
-		if(m_value.IsArray()) {
-			return m_value.Size();
-		}
-		throw exception("JSON value is not an array");
-	}
+	std::size_t size() const;
 	
-	int get_int() const {
-		if(m_value.IsInt()) {
-			return m_value.GetInt();
-		}
-		throw exception("JSON value in not an integer");
-	}
-	
-	std::string get_string() const {
-		if(m_value.IsString()) {
-			auto ptr = m_value.GetString();
-			auto size = m_value.GetStringLength();
-			return std::string(ptr, size);
-		}
-		throw exception("JSON value is not a string");
-	}
+	int get_int() const;
+	std::string get_string() const;
 	
 private:
-	value_t const& get_value(value_t const& key) const {
-		if(m_value.IsObject()) {
-			if(auto it = m_value.FindMember(key); it != m_value.MemberEnd()) {
-				return it->value;
-			}
-			throw exception("JSON value not found");
-		}
-		throw exception("JSON value is not an object");
-	}
+	value_t const& get_value(value_t const& key) const;
 	
 	value_t const& m_value;
 };

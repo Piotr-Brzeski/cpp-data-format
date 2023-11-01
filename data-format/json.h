@@ -14,24 +14,14 @@ namespace format {
 
 class json {
 public:
-	json(std::string&& string)
-		: m_data(std::move(string))
-	{
-		m_json.ParseInsitu(m_data.data());
-		assert(m_data[m_data.size()] == '\0');
-		if(m_json.HasParseError()) {
-			throw exception("JSON parse error");
-		}
-	}
+	json(std::string&& string);
 	
 	template<class Key>
 	value_wrapper operator[](Key& key) const {
 		return value_wrapper(m_json)[key];
 	}
 	
-	value_wrapper get() const {
-		return value_wrapper(m_json);
-	}
+	value_wrapper get() const;
 	
 private:
 	std::string         m_data;

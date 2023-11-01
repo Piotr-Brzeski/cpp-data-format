@@ -1,0 +1,18 @@
+targets:
+  data-format:
+    platform: macOS
+    type: library.static
+    sources:
+      - path: exception.h
+        group: data-format
+        buildPhase: none
+      - path: json.cpp
+        group: data-format
+      - path: json.h
+        group: data-format
+        buildPhase: none
+      - path: value_wrapper.cpp
+        group: data-format
+      - path: value_wrapper.h
+        group: data-format
+        buildPhase: none
