@@ -24,6 +24,7 @@
 	#pragma GCC diagnostic pop
 #endif
 #include <string>
+#include <optional>
 
 namespace format {
 
@@ -32,6 +33,15 @@ public:
 	using value_t = rapidjson::GenericValue<rapidjson::UTF8<>>;
 	
 	explicit value_wrapper(value_t const& value);
+	
+	template<class Key>
+	std::optional<value_wrapper> get(Key const& key) const {
+		auto value_ptr = get(value_t(rapidjson::StringRef(key)));
+		if(value_ptr != nullptr) {
+			return value_wrapper(*value_ptr);
+		}
+		return std::nullopt;
+}
 	
 	template<class Key>
 	value_wrapper operator[](Key const& key) const {
@@ -54,6 +64,7 @@ public:
 	std::string get_string() const;
 	
 private:
+	value_t const* get(value_t const& key) const;
 	value_t const& get_value(value_t const& key) const;
 	
 	value_t const& m_value;

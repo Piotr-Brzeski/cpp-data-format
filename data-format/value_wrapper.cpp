@@ -54,12 +54,20 @@ std::string value_wrapper::get_string() const {
 	throw exception("JSON value is not a string");
 }
 
-value_wrapper::value_t const& value_wrapper::get_value(value_t const& key) const {
+value_wrapper::value_t const* value_wrapper::get(value_t const& key) const {
 	if(m_value.IsObject()) {
 		if(auto it = m_value.FindMember(key); it != m_value.MemberEnd()) {
-			return it->value;
+			return &(it->value);
 		}
-		throw exception("JSON value not found");
+		return nullptr;
 	}
 	throw exception("JSON value is not an object");
+}
+
+value_wrapper::value_t const& value_wrapper::get_value(value_t const& key) const {
+	auto value_ptr = get(key);
+	if(value_ptr != nullptr) {
+		return *value_ptr;
+	}
+	throw exception("JSON value not found");
 }
