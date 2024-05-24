@@ -38,6 +38,13 @@ int value_wrapper::get_int() const {
 	throw exception("JSON value in not an integer");
 }
 
+unsigned int value_wrapper::get_uint() const {
+	if(m_value.IsUint()) {
+		return m_value.GetUint();
+	}
+	throw exception("JSON value in not an unsigned integer");
+}
+
 bool value_wrapper::get_bool() const {
 	if(m_value.IsBool()) {
 		return m_value.GetBool();

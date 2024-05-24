@@ -3,7 +3,7 @@
 //  cpp-json
 //
 //  Created by Piotr Brzeski on 2023-05-27.
-//  Copyright © 2023 Brzeski.net. All rights reserved.
+//  Copyright © 2023-2024 Brzeski.net. All rights reserved.
 //
 
 #pragma once
@@ -41,7 +41,7 @@ public:
 			return value_wrapper(*value_ptr);
 		}
 		return std::nullopt;
-}
+	}
 	
 	template<class Key>
 	value_wrapper operator[](Key const& key) const {
@@ -60,6 +60,7 @@ public:
 	std::size_t size() const;
 	
 	int get_int() const;
+	unsigned int get_uint() const;
 	bool get_bool() const;
 	std::string get_string() const;
 	
