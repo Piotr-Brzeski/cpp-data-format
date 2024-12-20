@@ -21,6 +21,11 @@ public:
 		return value_wrapper(m_json)[key];
 	}
 	
+	template<class Key>
+	std::optional<value_wrapper> get(Key& key) const {
+		return value_wrapper(m_json).get(key);
+	}
+	
 	value_wrapper get() const;
 	
 private:
